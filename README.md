@@ -3,18 +3,18 @@
 This Warehouse Management System (WMS) is designed to streamline inventory management and stock tracking processes within warehouses. 
 It provides functionalities for managing products, stocks, and storehouses efficiently.
 
-##Technologies Used
+Technologies Used
 .Java
 .Spring Boot
 .Hibernate
 .JUnit
 .Docker
 
-###Overview
+## Overview
 The Warehouse Management System simplifies the handling of check stock tasks in warehouses.
 It leverages Java, Spring Boot, Hibernate, JUnit, and Docker to ensure robustness, scalability, and ease of testing and deployment..
 
-####Project Structure
+### Project Structure
 .config: Contains configuration classes for Spring Boot application setup.
 .controller: Handles HTTP requests and serves as the entry point for various operations.
 .dto: Data Transfer Objects for transferring data between layers.
@@ -25,7 +25,7 @@ It leverages Java, Spring Boot, Hibernate, JUnit, and Docker to ensure robustnes
 .resources: Configuration files and static resources.
 .test: Contains unit and integration tests for ensuring the reliability of the application.
 
-#####Setup
+##### Setup
 
 1. Clone this repo
 ```
@@ -62,7 +62,7 @@ services:
 volumes:
   db_data:
 ```
-######Endpoints
+###### Endpoints
 
 |HTTP Method|URL|Description|
 |---|---|---|
