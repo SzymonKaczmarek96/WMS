@@ -79,7 +79,7 @@ volumes:
 |`PUT`|http://localhost:8000/stock/update/{productName} | Update stock by productName and request body with quantity |
 |STOREHOUSE|
 |`GET`|http://localhost:8000/storehouse | Get list of stocks |
-|`POST`|http://localhost:8000/storehouse/{productName}| Create storehouse by request body |
-|`DELETE`|http://localhost:8000/storehouse/{storehouseName} | Delete storehous by storehouseName |
+|`POST`|http://localhost:8000/storehouse/create| Create storehouse by request body |
+|`DELETE`|http://localhost:8000/storehouse/delete/{storehouseName} | Delete storehous by storehouseName |
 
 
