@@ -32,19 +32,15 @@ public class StockController {
         return ResponseEntity.ok(foundStock);
     }
 
-    @PutMapping("/update/{productName}/{quantity}")
-    public ResponseEntity<StockDto> updateStock(@PathVariable String productName,@PathVariable Integer quantity){
+    @PutMapping("/update/{productName}")
+    public ResponseEntity<StockDto> updateStock(@PathVariable String productName,@RequestBody Integer quantity){
         StockDto updatedQuantity = stockService.updateQuantity(productName,quantity);
         return ResponseEntity.ok(updatedQuantity);
     }
 
-    @PostMapping("/create/{productName}/{quantity}")
-    public ResponseEntity<StockDto> createStock(@PathVariable String productName,@PathVariable Integer quantity){
-        StockDto addedStockIntoStorehouse = stockService.addStockIntoStorehouse(productName,quantity);
+    @PostMapping("/create")
+    public ResponseEntity<StockDto> createStock(@RequestBody StockDto stockDto){
+        StockDto addedStockIntoStorehouse = stockService.addStockIntoStorehouse(stockDto.product().getProductName(),stockDto.quantity());
         return ResponseEntity.ok(addedStockIntoStorehouse);
     }
-
-
-
-
 }

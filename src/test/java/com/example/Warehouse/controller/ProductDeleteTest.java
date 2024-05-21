@@ -1,4 +1,4 @@
-package com.example.Warehouse;
+package com.example.Warehouse.controller;
 import com.example.Warehouse.entity.Product;
 import com.example.Warehouse.exceptions.ProductQuantityException;
 import com.example.Warehouse.repository.ProductRepository;
@@ -20,13 +20,10 @@ class ProductDeleteTest {
 
     @Mock
     private ProductRepository productRepository;
-
     @Mock
     private StockRepository stockRepository;
-
     @InjectMocks
     private ProductService productService;
-
 
     @Test
     void shouldDeleteProductWithZeroQuantity(){
@@ -56,8 +53,6 @@ class ProductDeleteTest {
 
         when(productRepository.existsByProductName(product.getProductName())).thenReturn(true);
         when(stockRepository.findQuantityByProductName(product.getProductName())).thenReturn(Optional.of(100));
-
-
         assertThrows(ProductQuantityException.class, () -> productService.deleteProduct(product.getProductName()));
     }
 

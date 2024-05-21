@@ -40,7 +40,6 @@ public class StorehouseController {
         storehouseService.deleteStorehouse(storehouseName);
         return ResponseEntity.noContent().build();
 
-
     }
 
 

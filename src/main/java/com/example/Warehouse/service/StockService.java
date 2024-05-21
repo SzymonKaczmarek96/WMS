@@ -63,7 +63,6 @@ public class StockService {
         return stockRepository.save(existStock).toStockDto();
     }
 
-
     public StockDto addStockIntoStorehouse(String productName, Integer quantity) {
         Stock createProductStock = new Stock(getProductByProductName(productName),quantity,getPrimaryStorehouse());
         return stockRepository.save(createProductStock).toStockDto();
@@ -75,8 +74,8 @@ public class StockService {
     }
 
     private Product getProductByProductName(String productName){
-         Optional<Product> product = productRepository.findByProductName(productName);
-         return product.get();
+        return productRepository.findByProductName(productName)
+                 .orElseThrow(() -> new ProductNotExistException(productName));
 
     }
 }
