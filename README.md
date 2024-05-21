@@ -67,16 +67,16 @@ volumes:
 |HTTP Method|URL|Description|
 |---|---|---|
 |PRODUCT|
-|`GET`|http://localhost:8000/products | Get list of products |
-|`GET`|http://localhost:8000/products/{productName}| Get Product by product name |
-|`POST`|http://localhost:8000/products/create | Create product by request body |
-|`PUT`|http://localhost:8000/products/update/{productName} | Update product by request body |
-|`DELETE`|http://localhost:8000/delete/{productName} | Delete product by productName |
+|`GET`|http://localhost:8000/product | Get list of products |
+|`GET`|http://localhost:8000/product/{productName}| Get Product by product name |
+|`POST`|http://localhost:8000/product/create | Create product by request body |
+|`PUT`|http://localhost:8000/product/update/{productName} | Update product by request body |
+|`DELETE`|http://localhost:8000/product/delete/{productName} | Delete product by productName |
 |STOCK|
 |`GET`|http://localhost:8000/stock | Get list of stocks |
 |`GET`|http://localhost:8000/stock/{productName}| Get Stock by product name |
-|`POST`|http://localhost:8000/stock/create/{productName}/{quantity} | Create stock by productName and quantity |
-|`PUT`|http://localhost:8000/stock/update/{productName}/{quantity} | Update stock by productName and quantity |
+|`POST`|http://localhost:8000/stock/create | Create stock by request body |
+|`PUT`|http://localhost:8000/stock/update/{productName} | Update stock by productName and request body with quantity |
 |STOREHOUSE|
 |`GET`|http://localhost:8000/storehouse | Get list of stocks |
 |`POST`|http://localhost:8000/storehouse/{productName}| Create storehouse by request body |
