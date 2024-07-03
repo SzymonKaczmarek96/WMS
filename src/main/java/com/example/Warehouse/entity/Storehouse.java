@@ -12,25 +12,25 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table (name = "storehouse")
+@Table(name = "storehouse")
 @Entity
 public class Storehouse {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "storehouse_id")
     private long storehouseId;
 
 
-    @Column(name = "storehouse_name", unique = true,nullable = false)
+    @Column(name = "storehouse_name", unique = true, nullable = false)
     private String storehouseName;
 
 
     @Column(name = "address", unique = true, nullable = false)
     private String address;
 
-    public StorehouseDto toStorehouseDto(){
-        StorehouseDto storehouseDto = new StorehouseDto(storehouseName,address);
+    public StorehouseDto toStorehouseDto() {
+        StorehouseDto storehouseDto = new StorehouseDto(storehouseName, address);
         return storehouseDto;
     }
 

@@ -1,4 +1,5 @@
 package com.example.Warehouse.controller;
+
 import com.example.Warehouse.entity.Product;
 import com.example.Warehouse.exceptions.ProductQuantityException;
 import com.example.Warehouse.repository.ProductRepository;
@@ -26,7 +27,7 @@ class ProductDeleteTest {
     private ProductService productService;
 
     @Test
-    void shouldDeleteProductWithZeroQuantity(){
+    void shouldDeleteProductWithZeroQuantity() {
 
         Product product = new Product(1L, "Batteries 45AH", 40000);
 
@@ -36,14 +37,13 @@ class ProductDeleteTest {
         when(stockRepository.findStockIdByProductName(product.getProductName())).thenReturn(Optional.of(2L));
 
 
-
         productService.deleteProduct(product.getProductName());
 
 
         verify(productRepository, times(1)).existsByProductName(product.getProductName());
-        verify(stockRepository,times(1)).findQuantityByProductName(product.getProductName());
-        verify(stockRepository,times(1)).findStockIdByProductName(product.getProductName());
-        verify(productRepository,times(1)).deleteByProductName(product.getProductName());
+        verify(stockRepository, times(1)).findQuantityByProductName(product.getProductName());
+        verify(stockRepository, times(1)).findStockIdByProductName(product.getProductName());
+        verify(productRepository, times(1)).deleteByProductName(product.getProductName());
 
     }
 

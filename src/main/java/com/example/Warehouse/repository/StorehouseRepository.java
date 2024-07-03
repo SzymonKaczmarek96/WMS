@@ -8,7 +8,7 @@ import java.util.Optional;
 
 
 @Repository
-public interface StorehouseRepository extends JpaRepository<Storehouse,Long> {
+public interface StorehouseRepository extends JpaRepository<Storehouse, Long> {
 
     Optional<Storehouse> findByStorehouseName(String storehouseName);
 
