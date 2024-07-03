@@ -10,11 +10,12 @@ Technologies Used
 .Hibernate
 .JUnit
 .Docker
+.Mockito
 
 ## Overview
 
 The Warehouse Management System simplifies the handling of check stock tasks in warehouses.
-It leverages Java, Spring Boot, Hibernate, JUnit, and Docker to ensure robustness, scalability, and ease of testing and
+It leverages Java, Spring Boot, Hibernate, JUnit,Mockito and Docker to ensure robustness, scalability, and ease of testing and
 deployment..
 
 ### Project Structure
