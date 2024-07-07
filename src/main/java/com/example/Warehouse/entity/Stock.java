@@ -1,7 +1,7 @@
 package com.example.Warehouse.entity;
 
 import com.example.Warehouse.dto.StockDto;
-import com.example.Warehouse.dto.StockStreamDto;
+import com.example.Warehouse.dto.TotalStorehouseQuantityDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,8 +36,8 @@ public class Stock {
         return new StockDto(product, quantity, storehouse);
     }
 
-    public StockStreamDto toStockDtoToStream() {
-        return new StockStreamDto(quantity, storehouse.getStorehouseName());
+    public TotalStorehouseQuantityDto toStockDtoToStream() {
+        return new TotalStorehouseQuantityDto(quantity, storehouse.getStorehouseName());
     }
 
     public Stock(Product product, int quantity, Storehouse storehouse) {

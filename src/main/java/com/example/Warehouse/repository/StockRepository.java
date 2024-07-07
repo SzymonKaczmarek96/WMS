@@ -24,5 +24,4 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
     @Query("SELECT m FROM Stock m WHERE m.storehouse.storehouseName = :storehouseName")
     Optional<List<Stock>> findStocksByStorehouseName(String storehouseName);
 
-    ;
 }

@@ -4,7 +4,6 @@ import com.example.Warehouse.dto.StorehouseDto;
 import com.example.Warehouse.entity.Stock;
 import com.example.Warehouse.entity.Storehouse;
 import com.example.Warehouse.exceptions.StorehouseAlreadyExistException;
-import com.example.Warehouse.exceptions.StorehouseNotExistException;
 import com.example.Warehouse.exceptions.StorehouseStockExistsException;
 import com.example.Warehouse.repository.StockRepository;
 import com.example.Warehouse.repository.StorehouseRepository;
@@ -18,9 +17,9 @@ import java.util.List;
 @Service
 public class StorehouseService {
 
-    private StorehouseRepository storehouseRepository;
+    private final StorehouseRepository storehouseRepository;
 
-    private StockRepository stockRepository;
+    private final StockRepository stockRepository;
 
     @Autowired
     public StorehouseService(StorehouseRepository storehouseRepository, StockRepository stockRepository) {
@@ -43,30 +42,20 @@ public class StorehouseService {
         return storehouseRepository.save(storehouse).toStorehouseDto();
     }
 
-
     @Transactional
     public void deleteStorehouse(String storehouseName) {
-        if (storehouseRepository.existsByStorehouseName(storehouseName)) {
-            if (checkStock(storehouseName)) {
-                storehouseRepository.delete(storehouseRepository.findByStorehouseName(storehouseName).get());
-            } else {
-                throw new StorehouseStockExistsException(storehouseName);
-            }
+        if (hasEmptyStock(storehouseName)) {
+            storehouseRepository.findByStorehouseName(storehouseName)
+                    .ifPresent(storehouse -> storehouseRepository.delete(storehouse));
         } else {
-            throw new StorehouseNotExistException(storehouseName);
+            throw new StorehouseStockExistsException(storehouseName);
         }
     }
 
-    private boolean checkStock(String storehouseName) {
-        if (!storehouseRepository.findByStorehouseName(storehouseName).isPresent()) {
-            return true;
-        } else {
-            List<Stock> stockList = stockRepository.findStocksByStorehouseName(storehouseName).get();
-            if (stockList.size() > 0) {
-                return false;
-            }
-        }
-        return true;
+    private boolean hasEmptyStock(String storehouseName) {
+        List<Stock> stockList = stockRepository.findStocksByStorehouseName(storehouseName).orElseGet(List::of);
+        return stockList.isEmpty();
+
     }
 
 

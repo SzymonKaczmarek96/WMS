@@ -13,7 +13,7 @@ import java.util.Map;
 @RequestMapping("/product")
 public class ProductController {
 
-    private ProductService productService;
+    private final ProductService productService;
 
     @Autowired
     public ProductController(ProductService productService) {
@@ -44,15 +44,14 @@ public class ProductController {
         return ResponseEntity.ok(productDtoList);
     }
 
-
     @GetMapping("/check/price")
     public ResponseEntity<List<ProductDto>> displayProductByPriceRange(@RequestParam int min, @RequestParam int max) {
         List<ProductDto> productDtoList = productService.displayProductsByPriceRange(min, max);
         return ResponseEntity.ok(productDtoList);
     }
 
-    @GetMapping("/grouping")
-    public ResponseEntity<Map<String, List<ProductDto>>> displayProductByGroupingPrice() {
+    @GetMapping("/group")
+    public ResponseEntity<Map<String, List<ProductDto>>> displayProductGroupedByPrice() {
         Map<String, List<ProductDto>> grouped = productService.groupProductsByPrice();
         return ResponseEntity.ok(grouped);
     }

@@ -17,9 +17,9 @@ import java.util.*;
 @Service
 public class ProductService {
 
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
-    private StockRepository stockRepository;
+    private final StockRepository stockRepository;
 
 
     @Autowired
@@ -60,8 +60,10 @@ public class ProductService {
     }
 
     public ProductDto getProduct(String productName) {
-        ProductDto productDto = productRepository.findByProductName(productName).get().toProductDto();
-        return productDto;
+        if (productRepository.findByProductName(productName).isEmpty()) {
+            throw new ProductNotExistException(productName);
+        }
+        return productRepository.findByProductName(productName).get().toProductDto();
     }
 
 
@@ -123,20 +125,18 @@ public class ProductService {
                 .filter(product -> product.getPrice() > 30000)
                 .map(Product::toProductDto)
                 .toList());
-//        List<HashMap<String,List<ProductDto>>> allArguments = List.of((HashMap<String, List<ProductDto>>) groupingBy);
         return groupingBy;
     }
 
 
     private int getProductQuantity(String productName) {
         Optional<Integer> checkStock = stockRepository.findQuantityByProductName(productName);
-        int stock = checkStock.orElse(0);
-        return stock;
+        return checkStock.orElse(0);
     }
 
     private void deleteStockByProductName(String productName) {
-        Optional<Long> checkStockId = stockRepository.findStockIdByProductName(productName);
-        stockRepository.deleteById(checkStockId.get());
+        Long checkStockId = stockRepository.findStockIdByProductName(productName).orElseThrow(() -> new ProductNotExistException(productName));
+        stockRepository.deleteById(checkStockId);
     }
 
     private boolean isZero(int quantity) {
@@ -146,7 +146,7 @@ public class ProductService {
     private void checkRangeOfPrice(int min, int max) {
         if (min > max) {
             throw new IllegalArgumentException("Minimal value can not be bigger than maximal value");
-        } else if (min < 0 || max < 0) {
+        } else if (min < 0) {
             throw new IllegalArgumentException("Range of price can not be negative");
         }
     }

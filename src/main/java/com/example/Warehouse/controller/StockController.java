@@ -2,7 +2,7 @@ package com.example.Warehouse.controller;
 
 
 import com.example.Warehouse.dto.StockDto;
-import com.example.Warehouse.dto.StockStreamDto;
+import com.example.Warehouse.dto.TotalStorehouseQuantityDto;
 import com.example.Warehouse.service.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("/stock")
 public class StockController {
 
-    private StockService stockService;
+    private final StockService stockService;
 
     @Autowired
     public StockController(StockService stockService) {
@@ -46,9 +46,9 @@ public class StockController {
     }
 
     @GetMapping("check/{productName}")
-    public ResponseEntity<List<StockStreamDto>> selectProductStock(@PathVariable String productName) {
-        List<StockStreamDto> stockStreamDtoList = stockService.displayStockOfProductOnAllStorehouse(productName);
-        return ResponseEntity.ok(stockStreamDtoList);
+    public ResponseEntity<List<TotalStorehouseQuantityDto>> selectProductStock(@PathVariable String productName) {
+        List<TotalStorehouseQuantityDto> totalStorehouseQuantityDtoList = stockService.displayStockOfProductOnAllStorehouse(productName);
+        return ResponseEntity.ok(totalStorehouseQuantityDtoList);
     }
 
     @GetMapping("select/{storehouseName}")

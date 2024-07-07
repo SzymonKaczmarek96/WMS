@@ -2,7 +2,7 @@ package com.example.Warehouse.service;
 
 
 import com.example.Warehouse.dto.StockDto;
-import com.example.Warehouse.dto.StockStreamDto;
+import com.example.Warehouse.dto.TotalStorehouseQuantityDto;
 import com.example.Warehouse.entity.Product;
 import com.example.Warehouse.entity.Stock;
 import com.example.Warehouse.entity.Storehouse;
@@ -22,11 +22,11 @@ import java.util.Optional;
 @Service
 public class StockService {
 
-    private StockRepository stockRepository;
+    private final StockRepository stockRepository;
 
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
-    private StorehouseRepository storehouseRepository;
+    private final StorehouseRepository storehouseRepository;
 
     @Autowired
     public StockService(StockRepository stockRepository, ProductRepository productRepository, StorehouseRepository storehouseRepository) {
@@ -36,13 +36,12 @@ public class StockService {
     }
 
     public List<StockDto> getAllStock() {
-        List<StockDto> stockDtoList = stockRepository.findAll().stream().map(Stock::toStockDto).toList();
-        return stockDtoList;
+        return stockRepository.findAll().stream().map(Stock::toStockDto).toList();
     }
 
     public StockDto findStock(String productName) {
         Optional<Stock> checkedStock = stockRepository.findStockByProductName(productName);
-        if (!checkedStock.isPresent()) {
+        if (checkedStock.isEmpty()) {
             throw new ProductNotExistException(productName);
         }
         return checkedStock.get().toStockDto();
@@ -50,7 +49,7 @@ public class StockService {
 
     public StockDto updateQuantity(String productName, Integer quantity) {
         Optional<Stock> objectStockOptional = stockRepository.findStockByProductName(productName);
-        if (!objectStockOptional.isPresent()) {
+        if (objectStockOptional.isEmpty()) {
             throw new ProductNotExistException(productName);
         }
         Stock existStock = objectStockOptional.get();
@@ -66,10 +65,10 @@ public class StockService {
     public int sumOfWarehouseStock(String warehouseName) {
         return stockRepository.findAll().stream()
                 .filter(stock -> stock.getStorehouse().getStorehouseName().equals(warehouseName))
-                .mapToInt(productStock -> productStock.getQuantity()).sum();
+                .mapToInt(Stock::getQuantity).sum();
     }
 
-    public List<StockStreamDto> displayStockOfProductOnAllStorehouse(String productName) {
+    public List<TotalStorehouseQuantityDto> displayStockOfProductOnAllStorehouse(String productName) {
         List<Stock> allStockByProductName = stockRepository.findAll().stream()
                 .filter(product -> product.getProduct().getProductName().equals(productName)).toList();
         List<Stock> storehouseList = allStockByProductName.stream()
@@ -78,39 +77,35 @@ public class StockService {
     }
 
     public List<StockDto> sortStockByQuantity(String storehouseName) {
-        List<StockDto> stockListSortedByQuantity = stockRepository.findAll()
+        return stockRepository.findAll()
                 .stream().filter(stock -> stock.getStorehouse().getStorehouseName().equals(storehouseName))
-                .sorted(Comparator.comparingInt(stock -> stock.getQuantity()))
+                .sorted(Comparator.comparingInt(Stock::getQuantity))
                 .map(Stock::toStockDto)
                 .toList();
-        return stockListSortedByQuantity;
     }
 
     public int sumOfWarehouseStockInTheDesignatedRange(String storehouseName, int min, int max) {
         checkRangeOfPrice(min, max);
-        int allStockByStorehouseName = stockRepository.findAll()
+        return stockRepository.findAll()
                 .stream().filter(stock -> stock.getStorehouse().getStorehouseName().equals(storehouseName))
                 .filter(product -> product.getProduct().getPrice() >= min && product.getProduct().getPrice() <= max)
                 .mapToInt(Stock::getQuantity).sum();
-        return allStockByStorehouseName;
     }
 
     private Storehouse getPrimaryStorehouse(String storehouseName) {
-        Storehouse defStorehouse = storehouseRepository.findByStorehouseName(storehouseName)
+        return storehouseRepository.findByStorehouseName(storehouseName)
                 .orElseThrow(() -> new StorehouseNotExistException(storehouseName));
-        return defStorehouse;
     }
 
     private Product getProductByProductName(String productName) {
         return productRepository.findByProductName(productName)
                 .orElseThrow(() -> new ProductNotExistException(productName));
-
     }
 
     private void checkRangeOfPrice(int min, int max) {
         if (min > max) {
             throw new IllegalArgumentException("Minimal value can not be bigger than maximal value");
-        } else if (min < 0 || max < 0) {
+        } else if (min < 0) {
             throw new IllegalArgumentException("Range of price can not be negative");
         }
     }
