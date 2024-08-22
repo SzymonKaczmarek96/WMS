@@ -20,15 +20,24 @@ deployment..
 
 ### Project Structure
 
-.`config`: Contains configuration classes for Spring Boot application setup.
-.`controller`: Handles HTTP requests and serves as the entry point for various operations.
-.`dto`: Data Transfer Objects for transferring data between layers.
-.`entity`: Entity classes representing database tables.
-.`exceptions`: Custom exception classes for handling specific error scenarios.
-.`repository`: Interfaces for database interaction using Spring Data JPA.
-.`service`: Business logic implementations for handling warehouse operations.
-.`resources`: Configuration files and static resources.
-.`test`: Contains unit and integration tests for ensuring the reliability of the application.
+.`config/`: 
+Contains configuration classes for Spring Boot application setup.
+.`controller/`:
+Handles HTTP requests and serves as the entry point for various operations.
+.`dto/`:
+Data Transfer Objects for transferring data between layers.
+.`entity/`:
+Entity classes representing database tables.
+.`exceptions/`:
+Custom exception classes for handling specific error scenarios.
+.`repository/`:
+Interfaces for database interaction using Spring Data JPA.
+.`service/`:
+Business logic implementations for handling warehouse operations.
+.`resources/`:
+Configuration files and static resources.
+.`test/`:
+Contains unit and integration tests for ensuring the reliability of the application.
 
 ##### Setup
 
